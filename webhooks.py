@@ -1,13 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 import json
 
 app = Flask(__name__)
 @app.route('/bitbucket/<repositorio>', methods = ['POST'])
 def getRep(repositorio):
-    
+    token = "dev"
     # validate request
     if request.method=='POST': 
-        resp = str(repositorio)
+        compare = request.args.get('token', '')
+        if compare == token:
+            resp = str(repositorio)
+        else: 
+            resp = "denied"
+            abort(403)
     else:
         resp = "invalid"
     
