@@ -1,4 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
+import json
 
 app = Flask(__name__)
 #@app.route('/bitbucket/<repositorio>', methods = ['POST'])
@@ -9,12 +10,19 @@ def test(repositorio):
     else:
         resp = "invalid"
     #return 'repositorio %s addr %s \n' % resp, request.remote_addr
-    #return 'add %s \n' % request.remote_addr 
-    with open('request.txt', 'a') as out:
-        out.write(str(request.json))
-        #out.write(str(request.headers))
+    data = request.get_json()
+    tipo = type(data[0])
+    with open('request.log', 'a') as out:
+        #out.write(str(request.json))
+        out.write(str(tipo))
 
-    return 'add %s \n' % request.headers 
+    #return 'add %s \n' % request.headers 
+    #return jsonify(json.loads(request.data))
+    #return jsonify(request.json)
+    #print (data[0])    
+    return str(data[0])
+    #return jsonify(data)
+    #return 'user: %s \n' % user
 
 @app.route('/post/<int:post_id>')
 def show_post(post_id):
