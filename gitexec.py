@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import loghelper 
+import logging
 from configparser import ConfigParser
 
 
@@ -12,7 +13,8 @@ def ifnotexist(directory):
 def loadConfig(section):
     """ Method wich load config file. 
     return a dict type. """
-    
+    logger = logging.getLogger(__name__)
+    logger.debug("loadConfig() --> %s", section)
     parser = ConfigParser()
     # read config file
     parser.read("config/repositories.conf")
@@ -23,18 +25,23 @@ def loadConfig(section):
         # Load all properties of the current section file
         for p in params:
             repository[p[0]]=p[1]
-            print (repository) # debug
+            #logger.debug(p)
+            #print (repository) # debug
             #print (type(p)) # debug
     else:
-        print ("not found, raise exception") 
+        print ("not found, raise exception")  
+    logger.debug(repository) 
     return repository
 
 
 def gitExec(repository):
     #if not os.path.exists(repository['path']):
     #repository["path"] = "/lasdlasd"
+    logger = logging.getLogger(__name__)
+    logger.debug("gitExec() --> %s", repository)
     cmd = repository['gitbin'] + " -C " + repository["path"] + " status"
-    print (cmd) # debug
+    logger.debug("%s", cmd)
+    logger.info("Ejecutando git en el repositorio %s", repository["path"])
     with subprocess.Popen([cmd], stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True) as proc:
         if proc.stderr.read():
             print ("fail git command")
@@ -42,5 +49,6 @@ def gitExec(repository):
         
 
 if __name__ == "__main__":
+    loghelper.setup_logging()
     gitExec(loadConfig("souphelper"))
         
