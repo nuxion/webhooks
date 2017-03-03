@@ -1,7 +1,9 @@
 import os
 import sys
 import subprocess
+import loghelper 
 from configparser import ConfigParser
+
 
 def ifnotexist(directory):
     if not os.path.exists(directory):
