@@ -34,21 +34,23 @@ def loadConfig(section):
     return repository
 
 
-def gitExec(repository):
+def gitExec(repository, command):
     #if not os.path.exists(repository['path']):
     #repository["path"] = "/lasdlasd"
     logger = logging.getLogger(__name__)
     logger.debug("gitExec() --> %s", repository)
-    cmd = repository['gitbin'] + " -C " + repository["path"] + " status"
+    cmd = repository['gitbin'] + " -C " + repository["path"] + " " + command
     logger.debug("%s", cmd)
     logger.info("Ejecutando git en el repositorio %s", repository["path"])
     with subprocess.Popen([cmd], stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True) as proc:
-        if proc.stderr.read():
-            print ("fail git command")
+        logger.info(proc.stdout.read())
+        #if proc.stderr.read():
+        #    print ("fail git command")
         
         
 
 if __name__ == "__main__":
     loghelper.setup_logging()
-    gitExec(loadConfig("souphelper"))
+    #gitExec(loadConfig("souphelper"), "status")
+    gitExec(loadConfig("souphelper"), "pull")
         
