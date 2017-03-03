@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 import json
 
 app = Flask(__name__)
@@ -12,6 +12,7 @@ def getRep(repositorio):
             resp = str(repositorio)
         else: 
             resp = "denied"
+            abort(403)
     else:
         resp = "invalid"
     
