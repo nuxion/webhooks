@@ -2,23 +2,26 @@ from flask import Flask, request, jsonify, abort
 import json
 
 app = Flask(__name__)
-@app.route('/bitbucket/<repositorio>', methods = ['POST'])
+@app.route('/git/<repositorio>', methods = ['POST'])
 def getRep(repositorio):
     token = "dev"
-    # validate request
-    if request.method=='POST': 
-        compare = request.args.get('token', '')
-        if compare == token:
-            resp = str(repositorio)
-        else: 
-            resp = "denied"
-            abort(403)
-    else:
-        resp = "invalid"
+    if validate(request, token):
+        resp = str(repositorio)
     
-    #data = request.get_json()
 
     return 'resp: %s \n' % resp
 
+def validate(req, token):
+    if req.method=='POST': 
+        compare = req.args.get('token', '')
+        if compare == token:
+            resp = True
+        else:   
+            resp = False
+            abort(403)
+    else:
+        resp = False
+    return resp
+    
 if __name__ == "__main__" :
     app.run(port=5000,debug = True)
