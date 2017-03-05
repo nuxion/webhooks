@@ -2,6 +2,9 @@ import os
 import logging
 import logging.config
 import yaml
+""" taking from:
+https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/ .
+"""
 
 def setup_logging(
     default_path='config/log.yaml',
