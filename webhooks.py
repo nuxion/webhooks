@@ -1,20 +1,26 @@
 from flask import Flask, request, jsonify, abort
 import json
 
-app = Flask(__name__)
+
+""" Startup application. """
+app = Flask(__name__, instance_relative_config=True)
+# load config from instance/
+app.config.from_pyfile('config.py') 
+
+# start routes
 @app.route('/git/<repositorio>', methods = ['POST'])
 def getRep(repositorio):
-    token = "dev"
-    if validate(request, token):
+    if validate(request):
         resp = str(repositorio)
     
 
     return 'resp: %s \n' % resp
 
-def validate(req, token):
+def validate(req):
+    """ Validate if the token is ok. """
     if req.method=='POST': 
         compare = req.args.get('token', '')
-        if compare == token:
+        if compare == app.config['SECRET_KEY'] :
             resp = True
         else:   
             resp = False
