@@ -1,5 +1,7 @@
+# Generls imports
 from flask import Flask, request, jsonify, abort 
 import logging
+# Project specify imports
 from webhooks import app
 from webhooks import gitexec 
 from webhooks import loghelper
@@ -12,7 +14,8 @@ from webhooks import loghelper
 
 # start routes
 @app.route('/git/<repositorio>', methods = ['POST'])
-def getRep(repositorio): 
+def getRep(repositorio):
+    """ Recieve and exec the actualization of the repo. """ 
     logger= logging.getLogger(__name__)
     if validate(request):
         resp = str(repositorio)

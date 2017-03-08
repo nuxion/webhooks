@@ -1,8 +1,8 @@
 import os
 import sys
 import subprocess
-from webhooks import loghelper
 import logging
+from webhooks import loghelper
 from configparser import ConfigParser
 
 
@@ -12,7 +12,8 @@ def ifnotexist(directory):
 
 def loadConfig(section):
     """ Method wich load config file. 
-    return a dict type. """
+    return a dict type. """ 
+
     logger = logging.getLogger(__name__)
     logger.debug("loadConfig() --> %s", section)
     parser = ConfigParser()
@@ -33,17 +34,24 @@ def loadConfig(section):
     else:
         print ("not found, raise exception")  
     logger.debug(repository) 
-    return repository
+    return repository # return dict type
 
 
 def gitExec(repository, command):
+    """ Exec specify git command. 
+    Receive `repository{}` dict type whit indices: 
+    `gitbin`: to git command in the OS
+    `path`: to repository. 
+    And `command` string, specify command git to exec like status, pull, push, etc. """
+
     #if not os.path.exists(repository['path']):
     #repository["path"] = "/lasdlasd"
     logger = logging.getLogger(__name__)
     logger.debug("gitExec() --> %s", repository)
     cmd = repository['gitbin'] + " -C " + repository["path"] + " " + command
     logger.debug("%s", cmd)
-    logger.info("Ejecutando git en el repositorio %s", repository["path"])
+    logger.info("Ejecutando git en el repositorio %s", repository["path"]) 
+    # Exec command with Popen
     with subprocess.Popen([cmd], stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True) as proc:
         logger.info(proc.stdout.read())
         #if proc.stderr.read():
