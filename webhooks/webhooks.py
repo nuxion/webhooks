@@ -1,14 +1,14 @@
-from flask import Flask, request, jsonify, abort
-import json
-import gitexec 
+from flask import Flask, request, jsonify, abort 
 import logging
-import loghelper
+from webhooks import app
+from webhooks import gitexec 
+from webhooks import loghelper
 
 
 """ Startup application. """
-app = Flask(__name__, instance_relative_config=True)
+#app = Flask(__name__, instance_relative_config=True)
 # load config from instance/
-app.config.from_pyfile('config.py') 
+#app.config.from_pyfile('config.py') 
 
 # start routes
 @app.route('/git/<repositorio>', methods = ['POST'])
