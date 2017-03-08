@@ -1,7 +1,7 @@
 import os
 import sys
 import subprocess
-import loghelper 
+from webhooks import loghelper
 import logging
 from configparser import ConfigParser
 
@@ -17,7 +17,9 @@ def loadConfig(section):
     logger.debug("loadConfig() --> %s", section)
     parser = ConfigParser()
     # read config file
-    parser.read("config/repositories.conf")
+    #parser.read("config/repositories.conf") 
+    # verify that in the wsgi context need the full path:
+    parser.read("webhooks/config/repositories.conf")
     repository = {}
     if parser.has_section(section):
         # Return a list of tuples with the file values
