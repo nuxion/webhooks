@@ -27,4 +27,5 @@ def token_hex(nbytes=None):
     return binascii.hexlify(token_bytes(nbytes)).decode('ascii')
 
 if __name__ =="__main__":
-    print (token_hex(16))
+    print ("Token generated: token_hex(16)) 
+    print ("Put in webhooks/instance/config.py")

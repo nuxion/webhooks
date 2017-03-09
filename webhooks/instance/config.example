@@ -1,0 +1,4 @@
+# Rename this file to config.py
+SECRET_KEY='run python3 setup.py to generate a token' 
+REPO_PATH='webhooks/config/repositories.conf'
+CFG_LOG='config/log.yaml'
