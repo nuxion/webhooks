@@ -10,7 +10,7 @@ def ifnotexist(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-def loadConfig(section):
+def loadConfig(section, rfile):
     """ Method wich load config file. 
     return a dict type. """ 
 
@@ -20,7 +20,7 @@ def loadConfig(section):
     # read config file
     #parser.read("config/repositories.conf") 
     # verify that in the wsgi context need the full path:
-    parser.read("webhooks/config/repositories.conf")
+    parser.read(rfile)
     repository = {}
     if parser.has_section(section):
         # Return a list of tuples with the file values
@@ -59,8 +59,9 @@ def gitExec(repository, command):
         
         
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
+    file="config/repositories.conf"
     loghelper.setup_logging()
     #gitExec(loadConfig("souphelper"), "status")
-    gitExec(loadConfig("souphelper"), "pull")
+    gitExec(loadConfig("souphelper", file), "pull")
         

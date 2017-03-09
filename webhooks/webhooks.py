@@ -20,7 +20,7 @@ def getRep(repositorio):
     if validate(request):
         resp = str(repositorio)
         logger.info("repositorio --> %s", resp)
-        gitexec.gitExec(gitexec.loadConfig(resp), "status")
+        gitexec.gitExec(gitexec.loadConfig(resp, app.config['REPO_PATH']), "status")
     
 
     return 'resp: %s \n' % resp
